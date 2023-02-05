@@ -4,6 +4,7 @@ import secrets
 
 openai.api_key = secrets.OPEN_AI_KEY
 
+
 def handle_response(message) -> str:
     # Split message into arguments
     args = message.lower().split(" ")
@@ -21,15 +22,15 @@ def handle_response(message) -> str:
 
     if args[0] == '!ask':
         prompt = convert_args_to_prompt(args[1:nargs])
-        prompt = "Answer the following prompt as simple as possible, with sufficient information. If your response has code, please use Markdown formatting for your code. The prompt is: " + prompt
+        prompt = "Answer the following prompt with sufficient information in a kind and friendly manner. If your response has code, please use Markdown formatting for your code. The prompt is: " + prompt
         response = openai.Completion.create(
             model="text-davinci-003",
             prompt=prompt,
             temperature=0.8,
-            max_tokens=255,
+            max_tokens=1000,
             top_p=1.0,
             frequency_penalty=0.5,
-            presence_penalty=0.0
+            presence_penalty=0.5
         )
 
         answer = response['choices'][0]['text']
@@ -37,6 +38,6 @@ def handle_response(message) -> str:
     return args
 
 
-#convert argument format to a string prompt
+# convert argument format to a string prompt
 def convert_args_to_prompt(args) -> str:
     return ' '.join(args)
