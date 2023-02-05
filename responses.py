@@ -1,40 +1,16 @@
-import random
-import openai
-import secrets
-
-openai.api_key = secrets.OPEN_AI_KEY
-
+from commands import openai_api, help
 
 def handle_response(message) -> str:
     # Split message into arguments
     args = message.lower().split(" ")
     nargs = len(args)
 
-    if args[0] == '!image':
-        # assume the args after the !image command is the image generation prompt
-        response = openai.Image.create(
-            prompt=prompt,
-            n=1,
-            size="1024x1024"
-        )
-        image_url = response['data'][0]['url']
-        return image_url
-
+    if args[0] == '!help':
+        return help.generate_help_response(args)
+    if args[0] == '!draw':
+        return openai_api.draw_image(args)
     if args[0] == '!ask':
-        prompt = convert_args_to_prompt(args[1:nargs])
-        prompt = "Answer the following prompt with sufficient information in a kind and friendly manner. If your response has code, please use Markdown formatting for your code. The prompt is: " + prompt
-        response = openai.Completion.create(
-            model="text-davinci-003",
-            prompt=prompt,
-            temperature=0.8,
-            max_tokens=1000,
-            top_p=1.0,
-            frequency_penalty=0.5,
-            presence_penalty=0.5
-        )
-
-        answer = response['choices'][0]['text']
-        return answer
+        return openai_api.generate_text_response(args)
     return args
 
 
