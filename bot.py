@@ -27,6 +27,7 @@ def run_discord_bot():
         username = str(message.author)
         user_message = str(message.content)
         channel = str(message.channel)
+        # Only consider messages with a ! at the start
         if user_message[0] == "!":
             await send_message(message, user_message)
 
