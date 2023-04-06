@@ -1,6 +1,6 @@
 import discord
 import responses
-import secrets
+import my_secrets
 
 async def send_message(message, user_message):
     try:
@@ -10,7 +10,7 @@ async def send_message(message, user_message):
         print(e)
 
 def run_discord_bot():
-    TOKEN = secrets.TOKEN
+    TOKEN = my_secrets.TOKEN
     intents = discord.Intents.default()
     intents.message_content = True
     client = discord.Client(intents=intents)
